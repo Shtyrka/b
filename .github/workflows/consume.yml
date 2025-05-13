@@ -1,0 +1,27 @@
+name: Consume GitHub Package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Configure Maven for GitHub Packages
+        run: |
+          mkdir -p ~/.m2
+          echo "<settings><servers><server><id>github</id><username>x-access-token</username><password>${{ secrets.GH_APP_TOKEN }}</password></server></servers></settings>" > ~/.m2/settings.xml
+
+      - name: Build and run
+        run: |
+          mvn compile
+          mvn exec:java -Dexec.mainClass="com.example.App"
