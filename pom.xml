@@ -19,7 +19,7 @@
   <repositories>
     <repository>
       <id>github</id>
-      <url>https://maven.pkg.github.com/Shtyrka/repo-a</url>
+      <url>https://maven.pkg.github.com/Shtyrka/terrafrom-actions</url>
     </repository>
   </repositories>
 </project>
