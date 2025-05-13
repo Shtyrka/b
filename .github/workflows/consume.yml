@@ -22,18 +22,25 @@ jobs:
       - name: Extend Git credentials  # For terraform modules to use. Can download modules from git
         uses: de-vri-es/setup-git-credentials@v2.0.10
         with:
-          credentials: https://user:${{ steps.get_workflow_token.outputs.token }}@github.com
+          credentials: https://x-access-token:${{ steps.get_workflow_token.outputs.token }}@github.com
 
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-
       - name: Configure Maven for GitHub Packages
         run: |
           mkdir -p ~/.m2
-          echo "<settings><servers><server><id>github</id><username>x-access-token</username><password>${{ secrets.GH_APP_TOKEN }}</password></server></servers></settings>" > ~/.m2/settings.xml
+          echo "<settings>
+            <servers>
+              <server>
+                <id>github</id>
+                <username>x-access-token</username>
+                <password>${{ steps.get_workflow_token.outputs.token }}</password>
+              </server>
+            </servers>
+          </settings>" > ~/.m2/settings.xml
 
       - name: Build and run
         run: |
