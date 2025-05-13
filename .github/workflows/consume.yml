@@ -9,17 +9,19 @@ jobs:
     permissions:
       contents: read
       packages: read
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Get Token GH App  # Need it in order to write to comment section
+
+      - name: Get Token via GitHub App
         id: get_workflow_token
-        uses: peter-murray/workflow-application-token-action@v3  
+        uses: peter-murray/workflow-application-token-action@v3
         with:
-          application_id: ${{ secrets.APPLICATION_ID }}     # Need create a secret in actions
+          application_id: ${{ secrets.APPLICATION_ID }}
           application_private_key: ${{ secrets.APPLICATION_PRIVATE_KEY }}
 
-      - name: Extend Git credentials  # For terraform modules to use. Can download modules from git
+      - name: Extend Git credentials (optional, for Git access)
         uses: de-vri-es/setup-git-credentials@v2.0.10
         with:
           credentials: https://x-access-token:${{ steps.get_workflow_token.outputs.token }}@github.com
@@ -29,6 +31,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
       - name: Configure Maven for GitHub Packages
         run: |
           mkdir -p ~/.m2
