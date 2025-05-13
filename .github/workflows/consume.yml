@@ -49,4 +49,3 @@ jobs:
         run: |
           mvn compile
           mvn exec:java -Dexec.mainClass="com.example.App"
-        env: ${{ secrets.GITHUB_TOKEN }}
