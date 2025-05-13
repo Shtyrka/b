@@ -40,7 +40,7 @@ jobs:
               <server>
                 <id>github</id>
                 <username>x-access-token</username>
-                <password>${{ steps.get_workflow_token.outputs.token }}</password>
+                <password>${{ secrets.GITHUB_TOKEN }}</password>
               </server>
             </servers>
           </settings>" > ~/.m2/settings.xml
@@ -49,3 +49,4 @@ jobs:
         run: |
           mvn compile
           mvn exec:java -Dexec.mainClass="com.example.App"
+        env: ${{ secrets.GITHUB_TOKEN }}
